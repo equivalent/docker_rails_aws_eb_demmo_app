@@ -1,10 +1,23 @@
 db:
   image: postgres:9.5.1
+  environment:
+    POSTGRES_PASSWORD: mysecretlocalpassword
+    POSTGRES_USER: postgres
+    POSTGRES_DB: archiveapp
+redis:
+  image: redis
 archiveapp:
   build: .
   environment:
     SECRET_KEY_BASE: 19d07059ab81ff584bd8fd7be03ed765c63f5f4c3518d05f39b41c7152134e294b2f09cbf5d925045caab0ef6475862fc42c8e6b35d63e353a1472057e90f8c4
+    DB_ENV_POSTGRES_PASSWORD: mysecretlocalpassword
+    DB_ENV_POSTGRES_USERNAME: postgres
+    DB_ENV_POSTGRES_DATABASE: archiveapp
+    REDIS_DB_ID: 0 # id of redis db
   ports:
     - "9292:9292"
   volumes:
     - .:/app
+  links:
+    - db
+    - redis

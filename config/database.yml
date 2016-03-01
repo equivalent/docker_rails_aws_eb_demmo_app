@@ -1,6 +1,7 @@
 default: &default
   adapter: postgresql
   host: <%= ENV['DB_PORT_5432_TCP_ADDR'] %>
+  port: <%= ENV['DB_PORT_5432_TCP_PORT'] %>
   database: <%= ENV['DB_ENV_POSTGRES_DATABASE'] %>
   username: <%= ENV['DB_ENV_POSTGRES_USERNAME'] %>
   password: <%= ENV['DB_ENV_POSTGRES_PASSWORD'] %>

@@ -10,4 +10,4 @@ RUN bundle install
 RUN mkdir /app
 WORKDIR /app
 
-CMD puma
+CMD rake db:migrate && puma
