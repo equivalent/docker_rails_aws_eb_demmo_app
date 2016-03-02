@@ -1,0 +1,12 @@
+<h1>Wooo hoo it works</h1>
+<p>
+  <%= "PG connection works" if  ActiveRecord::Base.connection %>
+</p>
+
+<h2>Cache by <%= Rails.configuration.cache_store.first %></h2>
+<pre>
+  <code>
+    <% Rails.cache.fetch('testtest') { 'Cache Test is successful' } %>
+    <%= Rails.cache.fetch('testtest') || raise('cache not working') %>
+  </code>
+</pre>
