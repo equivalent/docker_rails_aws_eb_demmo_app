@@ -6,18 +6,30 @@ db:
     POSTGRES_DB: archiveapp
 redis:
   image: redis
+proxy:
+  image: nginx
+  volumes:
+    - ./config/nginx/nginx.conf:/etc/nginx/nginx.conf
+    - ./tmp/pids:/var/run/archiveapp
+    - ./log/:/var/log/archiveapp
+  ports:
+    - "80:80"
 archiveapp:
   build: .
   environment:
+    RAILS_ENV: development
+    MAX_THREADS: 16    # watch out so you don't run out of DB connection pool
+    WEB_CONCURRENCY: 1 # should match your CPU
     SECRET_KEY_BASE: 19d07059ab81ff584bd8fd7be03ed765c63f5f4c3518d05f39b41c7152134e294b2f09cbf5d925045caab0ef6475862fc42c8e6b35d63e353a1472057e90f8c4
     DB_ENV_POSTGRES_PASSWORD: mysecretlocalpassword
     DB_ENV_POSTGRES_USERNAME: postgres
     DB_ENV_POSTGRES_DATABASE: archiveapp
     REDIS_DB_ID: 0 # id of redis db
-  ports:
-    - "9292:9292"
   volumes:
     - .:/app
+    - ./tmp/pids:/var/run/archiveapp
+    - ./log/:/var/log/archiveapp
   links:
     - db
     - redis
+    - proxy

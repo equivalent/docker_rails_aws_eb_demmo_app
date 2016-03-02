@@ -8,6 +8,8 @@ RUN gem install bundler
 RUN bundle install
 
 RUN mkdir /app
+ADD . /app
 WORKDIR /app
+RUN bundle install
 
-CMD rake db:migrate && puma
+CMD rake db:migrate && puma -C /app/config/puma.rb
